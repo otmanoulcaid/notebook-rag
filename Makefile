@@ -1,7 +1,7 @@
 all : up
 
 up :
-	@docker compose --build -d $@
+	@docker compose $@ -d --build
 
 app : tmp-front-rule tmp-back-rule
 
