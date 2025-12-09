@@ -1,0 +1,27 @@
+<div class="upload-container">
+    <h2>Upload your PDF files</h2>
+
+    <label class="upload-box">
+        <input type="file" (change)="onFileSelected($event)" accept=".pdf" multiple hidden>
+        <p>Click or drag PDF files here</p>
+    </label>
+
+    @if (files) {
+    <div class="file-list">
+        <h3>Uploaded Files:</h3>
+        <ul>
+            @for(file of uploadedFiles; track $index) {
+            <li>
+                <span class="file-name">{{ file.name }} ({{ file.size / 1000 | number:'1.0-0' }} KB)</span>
+                <span class="delete-btn" (click)="removeFile($index)">&#10006;</span>
+            </li>
+            }
+        </ul>
+    </div>
+    }
+    <button [disabled]="files === 0">Upload</button>
+
+    @if(errorMessage){
+    <p class="error">{{ errorMessage }}</p>
+    }
+</div>
