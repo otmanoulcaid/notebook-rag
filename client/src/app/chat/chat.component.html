@@ -1,0 +1,17 @@
+<div class="chat-container">
+    <h2>Assistant Chat</h2>
+
+    <div class="chat-window" #chatWindow>
+        @for(message of messages; track $index) {
+        <div [class]="{'user-msg': message.sender === 'user', 'bot-msg': message.sender === 'bot'}"
+            class="chat-message">
+            {{ message.text }}
+        </div>
+        }
+    </div>
+
+    <form (ngSubmit)="sendMessage()" class="chat-input">
+        <input type="text" [(ngModel)]="newMessage" name="message" placeholder="Type your message..." required>
+        <button type="submit">Send</button>
+    </form>
+</div>
