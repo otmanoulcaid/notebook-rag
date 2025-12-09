@@ -6,10 +6,10 @@ up :
 app : tmp-front-rule tmp-back-rule
 
 tmp-front-rule :
-	@cd client && npm i && ng serve
+	@cd client/app && npm i && ng serve
 
 tmp-back-rule :
-	@cd rag && mvn spring-boot:run
+	@cd rag/app && mvn spring-boot:run
 
 clean :
 	@echo "cleaning..."
