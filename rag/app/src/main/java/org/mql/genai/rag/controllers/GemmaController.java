@@ -19,7 +19,7 @@ class GemmaController {
         this.gemmaService = gemmaService;
     }
 
-    @PostMapping("/chat")
+    @PostMapping("/ping")
     public String chat(@RequestBody Map<String, String> payload) {
         String prompt = payload.get("prompt");
         long startTime = System.currentTimeMillis();
@@ -31,4 +31,3 @@ class GemmaController {
         return response;
     }
 }
-//curl -X POST http://localhost:11434/v1/completions -H "Content-Type: application/json" -d '{"prompt": "Hello Ollama, how are you today?" }'

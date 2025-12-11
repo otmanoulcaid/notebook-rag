@@ -3,12 +3,15 @@ all : up
 up :
 	@docker compose $@ -d --build
 
-app : tmp-front-rule tmp-back-rule
+stop :
+	@docker compose $@
 
-tmp-front-rule :
+app : tmp-front tmp-back
+
+tmp-front :
 	@cd client/app && npm i && ng serve
 
-tmp-back-rule :
+tmp-back :
 	@cd rag/app && mvn spring-boot:run
 
 clean :
