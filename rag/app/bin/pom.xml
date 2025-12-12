@@ -35,56 +35,39 @@
 	</properties>
 
 	<dependencies>
-
-		<!-- doc easy rag langchin4j -->
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-easy-rag</artifactId>
-			<version>1.9.1-beta17</version>
-		</dependency>
-		
-		
-		<!-- ollama langchin4j -->
-
-		<dependency>
-		    <groupId>dev.langchain4j</groupId>
-		    <artifactId>langchain4j-ollama</artifactId>
-		    <version>1.9.1</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>dev.langchain4j</groupId>
-		    <artifactId>langchain4j-chroma</artifactId>
-		    <version>1.9.1-beta17</version>
-		</dependency>
-
-		<dependency>
-		    <groupId>dev.langchain4j</groupId>
-		    <artifactId>langchain4j-document-parser-apache-pdfbox</artifactId>
-		    <version>1.9.1-beta17</version>
-		</dependency>
-
 		<!-- Spring Boot essentials -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- LangChain4j (implémentation Java des patterns LangChain) -->
+		<!-- Spring AI Ollama starter (intégration Ollama/Gemma) -->
 		<dependency>
-		    <groupId>dev.langchain4j</groupId>
-		    <artifactId>langchain4j</artifactId>
-		    <version>${langchain4j.version}</version>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-model-ollama</artifactId>
+			<version>${spring.ai.version}</version>
 		</dependency>
 
+		<!-- LangChain4j (implémentation Java des patterns LangChain) -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
 
 		<!-- ChromaDB Java thin client -->
 		<dependency>
-		    <groupId>io.github.amikos-tech</groupId>
-		    <artifactId>chromadb-java-client</artifactId>
-		    <version>0.1.7</version>
+			<groupId>io.github.amikos-tech</groupId>
+			<artifactId>chromadb-java-client</artifactId>
+			<version>${chromadb.client.version}</version>
 		</dependency>
 
+		<!-- Apache PDFBox (pour extraire texte depuis PDF) -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.29</version>
+		</dependency>
 
 		<!-- Jackson JSON -->
 		<dependency>
