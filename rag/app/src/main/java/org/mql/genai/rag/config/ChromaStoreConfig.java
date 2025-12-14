@@ -1,10 +1,12 @@
 package org.mql.genai.rag.config;
 
+import org.springframework.context.annotation.Configuration;
+
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.chroma.ChromaEmbeddingStore;
 
-//@Configuration
+@Configuration
 public class ChromaStoreConfig {
 
 //    @Bean

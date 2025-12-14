@@ -35,6 +35,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- LangChain4j (implémentation Java des patterns LangChain) -->
+		<dependency>
+		    <groupId>dev.langchain4j</groupId>
+		    <artifactId>langchain4j</artifactId>
+		    <version>${langchain4j.version}</version>
+		</dependency>
 
 		<!-- doc easy rag langchin4j -->
 		<dependency>
@@ -42,16 +48,19 @@
 			<artifactId>langchain4j-easy-rag</artifactId>
 			<version>1.9.1-beta17</version>
 		</dependency>
-		
-		
-		<!-- ollama langchin4j -->
 
 		<dependency>
 		    <groupId>dev.langchain4j</groupId>
 		    <artifactId>langchain4j-ollama</artifactId>
 		    <version>1.9.1</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+			<version>1.9.1-beta17</version>
+		</dependency>
+
 		<dependency>
 		    <groupId>dev.langchain4j</groupId>
 		    <artifactId>langchain4j-chroma</artifactId>
@@ -69,14 +78,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<!-- LangChain4j (implémentation Java des patterns LangChain) -->
-		<dependency>
-		    <groupId>dev.langchain4j</groupId>
-		    <artifactId>langchain4j</artifactId>
-		    <version>${langchain4j.version}</version>
-		</dependency>
-
 
 		<!-- ChromaDB Java thin client -->
 		<dependency>
