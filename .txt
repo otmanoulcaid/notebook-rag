@@ -1,0 +1,23 @@
+maintenant que nous avons vu, qui fait quoi et dans quel niveau, on va aborder un aspect très important dans le métier
+d'automatisation de tests, c'est la mise en place des pipelines CI/CD. en fait au lieu de lancer les différents tests
+c'est à dire unitaire, intégration et end-to-end d'une manière séparée, on va les déclencher d'une manière séquentielle et automatisée,
+dans une pipeline CI/CD. et pour visualiser ce comportement, nous avons préparé un scénario de test pour tester l'application
+que nous avons développée dans le cours de generative ai, cette application est développée avec spring boot côté backend et Angular
+côté front end, du coup nous allons utiliser JUnit comme outil pour les tests unitaires et d'intégration du backend,
+jasmine pour les tests unitaires du front, et selenium pour tester notre application end to end.
+pour les tests unitaires et d'intégration nous l'avons deja vu y a pas mal de fois dans nos cours, et pour les tests end to end,
+en suivant les bonnes pratiques on trouve que notre projet contient plusieurs packages, parmi lesquels la partie drivers pour tester
+notre application sur plusieurs navigateurs, la partie tests, pour les cas de tests, et la partie pages pour référencer
+les pages de notre application, une page en fait selon le design pattern POM ce n'est qu'une classe ES6 qui encapsule
+des localisateurs et des méthodes qui vont agir sur ces localisateurs. revenons à notre pipeline, on commence d'abord par définir
+les étapes ou bien ce qu'on appelle stages, puis on trouve le contexte général là où on définit nos variables d'environnement
+s'il y en a bien sûr, et finalement les différents jobs qu'on veut lancer. et après un simple commit dans le dépôt distant
+le pipeline se déclenche, si jamais l'un des jobs subit un échec, le pipeline s'arrête immédiatement, et on pourra visualiser
+quel test échoue en cliquant sur le job, sinon le pipeline continue le processus d'exécution, après qu'il termine,
+on trouvera les différents artifacts en cliquant sur artifact, ces artifacts ça peut être des screenshots, des vidéos,
+des rapports XML ou bien d'autres. cependant, dans un cadre collaboratif les pipelines CI/CD seules ne suffisent pas,
+vu que ces derniers sont difficiles à consulter pour des personnes non techniques, et aussi il n’y a pas de traçabilité entre exigences,
+tests, il n’y a pas de suivi entre tests passés/échoués d'où l'importance des plateformes d'orchestration des tests comme XRay
+qui permet de faire une traçabilité complète entre tests ↔ user stories ↔ bugs, Des validations collaboratives, ainsi que cesplatforme 
+s'integre parfaitement avec les différents outils que nous avons vue y compris gitlab-ci, jenkins, ou bien d'autre
+
