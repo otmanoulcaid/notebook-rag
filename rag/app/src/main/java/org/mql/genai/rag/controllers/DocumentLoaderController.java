@@ -22,7 +22,7 @@ public class DocumentLoaderController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Map> uploadMultiple(
+    public ResponseEntity<Map<String, String>> uploadMultiple(
             @RequestParam("files") MultipartFile[] files) {
         
         if (files == null || files.length == 0)

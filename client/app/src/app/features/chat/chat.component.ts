@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ChatComponent {
   @ViewChild('chatWindow') private chatWindow!: ElementRef;
-  chatService !:ChatService;
+  chatService !: ChatService;
   messages!: Message[];
   newMessage = '';
 

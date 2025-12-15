@@ -11,6 +11,7 @@ import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.query.Query;
 import dev.langchain4j.service.AiServices;
 
+import org.mql.genai.rag.models.Message;
 import org.mql.genai.rag.utils.Assistant;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,15 @@ public class ChatAssistantService {
     private static final String PROMPT = loadPrompt();
     private final EmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
+    private final MessageService messageService;
     private final ChatModel chatModel;
 
-    public ChatAssistantService(ChatModel chatModel,
+    public ChatAssistantService(
+            ChatModel chatModel,
             EmbeddingStore<TextSegment> embeddingStore,
-            EmbeddingModel embeddingModel) {
-
+            EmbeddingModel embeddingModel,
+            MessageService messageService) {
+        this.messageService = messageService;
         this.chatModel = chatModel;
         this.embeddingStore = embeddingStore;
         this.embeddingModel = embeddingModel;
@@ -58,7 +62,7 @@ public class ChatAssistantService {
         System.out.println("=== Augmented Prompt ===");
         System.out.println(knowledge.toString());
         System.out.println("========================");
-        
+
         String augmentedPrompt = String.format(PROMPT, knowledge, message);
         System.out.println(augmentedPrompt.length());
         System.out.println(augmentedPrompt.length());
@@ -66,11 +70,14 @@ public class ChatAssistantService {
         System.out.println("========================");
 
         Assistant assistant = AiServices.builder(Assistant.class)
-        .chatModel(chatModel)
-        .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-        .contentRetriever(retriever)
-        .build();
-        return assistant.chat(augmentedPrompt);
+                .chatModel(chatModel)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+                .contentRetriever(retriever)
+                .build();
+        String chatResponse = assistant.chat(augmentedPrompt);
+        messageService.save(new Message(Message.Sender.USER, message));
+        messageService.save(new Message(Message.Sender.BOT, chatResponse));
+        return chatResponse;
     }
 
     private static String loadPrompt() {
