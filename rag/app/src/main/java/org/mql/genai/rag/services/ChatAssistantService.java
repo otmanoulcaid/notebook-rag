@@ -1,29 +1,36 @@
 package org.mql.genai.rag.services;
 
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
+import dev.langchain4j.rag.query.Query;
 
-import org.mql.genai.rag.utils.Assistant;
 import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatAssistantService {
 
-    private final ChatModel chatModel;
+    private static final String PROMPT = loadPrompt();
     private final EmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
 
     public ChatAssistantService(ChatModel chatModel,
-                                EmbeddingStore<TextSegment> embeddingStore,
-                                EmbeddingModel embeddingModel) {
+            EmbeddingStore<TextSegment> embeddingStore,
+            EmbeddingModel embeddingModel) {
 
-        this.chatModel = chatModel;
+        // this.chatModel = chatModel;
         this.embeddingStore = embeddingStore;
         this.embeddingModel = embeddingModel;
     }
@@ -31,17 +38,51 @@ public class ChatAssistantService {
     public String chat(String message) {
 
         ContentRetriever retriever = EmbeddingStoreContentRetriever.builder()
-        		.embeddingStore(embeddingStore)
-        		.embeddingModel(embeddingModel)
-        		.maxResults(3)
-        		.build();
-
-        Assistant assistant = AiServices.builder(Assistant.class)
-                .chatModel(chatModel)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-                .contentRetriever(retriever)
+                .embeddingStore(embeddingStore)
+                .embeddingModel(embeddingModel)
+                .maxResults(4)
                 .build();
 
-        return assistant.chat(message);
+        List<Content> retrievedSegments = retriever.retrieve(new Query(message));
+
+        StringBuilder knowledge = new StringBuilder();
+        for (Content segment : retrievedSegments)
+            knowledge.append(segment.textSegment().text()).append("\n");
+
+        knowledge.append("\nUser: ").append(message);
+
+        System.out.println("=== Augmented Prompt ===");
+        System.out.println(knowledge.toString());
+        System.out.println("========================");
+
+        String augmentedPrompt = String.format(PROMPT, knowledge, message);
+
+        // Assistant assistant = AiServices.builder(Assistant.class)
+        // .chatModel(chatModel)
+        // .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+        // .contentRetriever(retriever)
+        // .build();
+        // return assistant.chat(message);
+
+        return augmentedPrompt;
+    }
+
+    private static String loadPrompt() {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        Objects.requireNonNull(
+                                Thread.currentThread()
+                                        .getContextClassLoader()
+                                        .getResourceAsStream("static/prompt.txt")),
+                        StandardCharsets.UTF_8))) {
+
+            return br.lines().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String getPrompt() {
+        return PROMPT;
     }
 }

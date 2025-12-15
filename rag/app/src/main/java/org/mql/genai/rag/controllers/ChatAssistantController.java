@@ -2,17 +2,18 @@ package org.mql.genai.rag.controllers;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.mql.genai.rag.services.ChatAssistantService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/chat")
+@CrossOrigin("*")
+@RequestMapping("/api/v1")
 public class ChatAssistantController {
 
     private final ChatAssistantService chatAssistantService;
@@ -21,7 +22,7 @@ public class ChatAssistantController {
         this.chatAssistantService = chatAssistantService;
     }
 
-    @PostMapping
+    @PostMapping("/chat")
     public String chat(@RequestBody Map<String, String> body) {
         String prompt = body.get("prompt");
 

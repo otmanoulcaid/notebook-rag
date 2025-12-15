@@ -1,0 +1,27 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { finalize } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UploadService {
+  private http = inject(HttpClient);
+  wait = signal(false);
+
+  upload(files: File[]) {
+    const formData = new FormData();
+
+    files.forEach(file => {
+      formData.append('files', file);
+    });
+
+    this.wait.set(true);
+
+    return this.http
+      .post<string>('http://localhost:8080/api/v1/upload', formData)
+      .pipe(
+        finalize(() => this.wait.set(false))
+      );
+  }
+}

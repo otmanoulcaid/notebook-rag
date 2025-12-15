@@ -1,20 +1,21 @@
 package org.mql.genai.rag.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.chroma.ChromaEmbeddingStore;
 
-//@Configuration
+@Configuration
 public class ChromaStoreConfig {
 
-//    @Bean
+    @Bean
+    @Primary
     public EmbeddingStore<TextSegment> embeddingStore() {
-    	System.out.println("#######################################################################################################################");
-        var embeddingStore = ChromaEmbeddingStore.builder()
-                .baseUrl("http://localhost:8000")
-                .collectionName("rag_documents")
+        return ChromaEmbeddingStore.builder()
+                .baseUrl("http://192.168.0.5:8000")
                 .build();
-        System.out.println("#######################################################################################################################");
-        return embeddingStore;
     }
 }
