@@ -1,5 +1,7 @@
 package org.mql.genai.rag.config;
 
+import org.mql.genai.rag.models.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,9 +15,9 @@ public class ChromaStoreConfig {
 
     @Bean
     @Primary
-    public EmbeddingStore<TextSegment> embeddingStore() {
+    public EmbeddingStore<TextSegment> embeddingStore(Properties props) {
         var embeddingStore = ChromaEmbeddingStore.builder()
-                .baseUrl("http://192.168.0.5:8000")
+                .baseUrl(props.getChromaUrl())
                 .build();        
                 return embeddingStore;
     }

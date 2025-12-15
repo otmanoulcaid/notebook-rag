@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Properties {
-
     @Value("${ollama.embedding}")
     private String embeddingModel;
     @Value("${ollama.url}")
-    private String url;
+    private String ollamaUrl;
     @Value("${ollama.chat}")
     private String chatModel;
+
+    @Value("${chroma.url}")
+    private String chromaUrl;
 
     @Value("${model.timeout}")
     private String timeout;
@@ -41,7 +43,11 @@ public class Properties {
 	}
 
 	public String getUrl() {
-		return url;
+		return ollamaUrl;
+	}
+
+	public String getChromaUrl() {
+		return chromaUrl;
 	}
 
 	public String getTimeout() {
