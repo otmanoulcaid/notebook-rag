@@ -6,12 +6,12 @@ up :
 stop :
 	@docker compose $@
 
-app : tmp-front tmp-back
+app : front back
 
-tmp-front :
+front :
 	@cd client/app && npm i && ng serve
 
-tmp-back :
+back :
 	@cd rag/app && mvn clean && mvn spring-boot:run -Ddev.langchain4j.http.client.factory=spring
 
 clean :

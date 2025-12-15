@@ -25,11 +25,8 @@ export class ChatComponent {
     this.messages.push({ sender: 'user', text: this.newMessage });
     this.chatService.send(this.newMessage).subscribe({
       error: err=> console.log(err),
-      next: (response) => this.messages.push({ sender: 'bot', text: response })
+      next: (response) => this.messages.push({ sender: 'bot', text: response.response })
     })
-    setTimeout(() => {
-      this.messages.push({ sender: 'bot', text: 'This response is comming from the AI, just wait...' });
-    }, 800);
     this.newMessage = '';
   }
 

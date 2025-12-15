@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { finalize } from 'rxjs';
+import { HttpResponse } from '../models/HttpResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class UploadService {
     this.wait.set(true);
 
     return this.http
-      .post<string>('http://localhost:8080/api/v1/upload', formData)
+      .post<HttpResponse>('http://localhost:8080/api/v1/upload', formData)
       .pipe(
         finalize(() => this.wait.set(false))
       );

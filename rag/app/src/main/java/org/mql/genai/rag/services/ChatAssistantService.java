@@ -1,6 +1,7 @@
 package org.mql.genai.rag.services;
 
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -8,7 +9,9 @@ import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.query.Query;
+import dev.langchain4j.service.AiServices;
 
+import org.mql.genai.rag.utils.Assistant;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -25,12 +28,13 @@ public class ChatAssistantService {
     private static final String PROMPT = loadPrompt();
     private final EmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
+    private final ChatModel chatModel;
 
     public ChatAssistantService(ChatModel chatModel,
             EmbeddingStore<TextSegment> embeddingStore,
             EmbeddingModel embeddingModel) {
 
-        // this.chatModel = chatModel;
+        this.chatModel = chatModel;
         this.embeddingStore = embeddingStore;
         this.embeddingModel = embeddingModel;
     }
@@ -54,17 +58,19 @@ public class ChatAssistantService {
         System.out.println("=== Augmented Prompt ===");
         System.out.println(knowledge.toString());
         System.out.println("========================");
-
+        
         String augmentedPrompt = String.format(PROMPT, knowledge, message);
+        System.out.println(augmentedPrompt.length());
+        System.out.println(augmentedPrompt.length());
+        System.out.println(augmentedPrompt.length());
+        System.out.println("========================");
 
-        // Assistant assistant = AiServices.builder(Assistant.class)
-        // .chatModel(chatModel)
-        // .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-        // .contentRetriever(retriever)
-        // .build();
-        // return assistant.chat(message);
-
-        return augmentedPrompt;
+        Assistant assistant = AiServices.builder(Assistant.class)
+        .chatModel(chatModel)
+        .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+        .contentRetriever(retriever)
+        .build();
+        return assistant.chat(augmentedPrompt);
     }
 
     private static String loadPrompt() {

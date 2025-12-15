@@ -6,22 +6,29 @@
         <p>Click or drag PDF files here</p>
     </label>
 
-    @if (files) {
-    <div class="file-list">
-        <h3>Uploaded Files:</h3>
-        <ul>
-            @for(file of uploadedFiles; track $index) {
-            <li>
-                <span class="file-name">{{ file.name }} ({{ file.size / 1000 | number:'1.0-0' }} KB)</span>
-                <span class="delete-btn" (click)="removeFile($index)">&#10006;</span>
-            </li>
-            }
-        </ul>
+    <div *ngIf="files">
+        <div class="file-list">
+            <h3>Uploaded Files:</h3>
+            <ul>
+                @for(file of uploadedFiles; track $index) {
+                <li>
+                    <span class="file-name">{{ file.name }} ({{ file.size / 1000 | number:'1.0-0' }} KB)</span>
+                    <span class="delete-btn" (click)="removeFile($index)">&#10006;</span>
+                </li>
+                }
+            </ul>
+        </div>
     </div>
-    }
-    <button (click)="upload()" [disabled]="files === 0 && state()">Upload</button>
 
-    @if(errorMessage){
-    <p class="error">{{ errorMessage }}</p>
+    <button (click)="upload()" [disabled]="files === 0">Upload</button>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <!-- overlay -->
+    @if(loading) {
+    <div class="overlay">
+        <div class="spinner"></div>
+        <p>Uploading... please wait</p>
+    </div>
     }
 </div>

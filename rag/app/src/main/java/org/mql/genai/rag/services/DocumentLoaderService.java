@@ -2,8 +2,8 @@ package org.mql.genai.rag.services;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths; 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.time.Instant;
@@ -44,9 +44,11 @@ public class DocumentLoaderService {
 
             for (MultipartFile file : files) {
 
-                if (file == null || file.isEmpty()) continue;
+                if (file == null || file.isEmpty())
+                    continue;
 
-                if (!"application/pdf".equalsIgnoreCase(file.getContentType())) continue;
+                if (!"application/pdf".equalsIgnoreCase(file.getContentType()))
+                    continue;
                 String originalName = file.getOriginalFilename();
                 Path targetPath = uploadPath.resolve("upload" + originalName);
                 Files.copy(
@@ -66,7 +68,7 @@ public class DocumentLoaderService {
         List<Document> documents = FileSystemDocumentLoader.loadDocuments(
                 pdfsPath.toString(),
                 new ApachePdfBoxDocumentParser());
-        DocumentByParagraphSplitter splitter = new DocumentByParagraphSplitter(500, 30);
+        DocumentByParagraphSplitter splitter = new DocumentByParagraphSplitter(500, 100);
 
         List<TextSegment> pdfSegments = new Vector<>();
         for (Document document : documents) {
@@ -87,23 +89,17 @@ public class DocumentLoaderService {
         System.out.println(">>>>>>>>>>>>>>>>>>>>> start the emmbedding <<<<<<<<<<<<<<<<<<<<<<");
         List<Embedding> embeddings = embeddingModel.embedAll(pdfSegments).content();
         embeddingStore.addAll(embeddings, pdfSegments);
-        long time = Duration.between(now, Instant.now()).toMinutes();
+        long time = Duration.between(now, Instant.now()).toSeconds();
         System.out.println(">>>>>>>>>>>>>>>>>>>>> Done from the emmbeddingin : " + time + " <<<<<<<<<<<<<<<<<<<<<<");
 
     }
 
     public void upload(MultipartFile[] files) {
         writeFilesOnDisk(files);
-        var resourceUrl = getClass().getClassLoader().getResource(UPLOAD_DIR);
-        if (resourceUrl == null) {
+        Path pdfsPath = Paths.get(UPLOAD_DIR);
+        if (!Files.exists(pdfsPath)) {
             System.out.println(">>>>>>>>>>>>> no path found <<<<<<<<<<<<<<");
             return;
-        }
-        Path pdfsPath;
-        try {
-            pdfsPath = Paths.get(resourceUrl.toURI());
-        } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la conversion de l'URL en Path", e);
         }
         embedFiles(pdfsPath);
     }

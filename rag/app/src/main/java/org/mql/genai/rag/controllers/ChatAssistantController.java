@@ -23,16 +23,16 @@ public class ChatAssistantController {
     }
 
     @PostMapping("/chat")
-    public String chat(@RequestBody Map<String, String> body) {
+    public Map<String, String> chat(@RequestBody Map<String, String> body) {
         String prompt = body.get("prompt");
 
         if (prompt == null || prompt.isEmpty())
-        	return "Prompt is empty!";
+        	return Map.of("response", "Prompt is empty!");
         Instant now = Instant.now();
         String result = chatAssistantService.chat(prompt);
         double timeProcess = Duration.between(now, Instant.now()).toMillis();
 
         System.out.println("Temps : " + timeProcess + "ms");
-        return result;
+        return Map.of("response", result);
     }
 }

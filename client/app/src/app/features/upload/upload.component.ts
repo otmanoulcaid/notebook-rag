@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { UploadService } from '../../services/upload.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -9,8 +10,10 @@ import { UploadService } from '../../services/upload.service';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent {
+  router = inject(Router)
   uploadedFiles: File[] = [];
   errorMessage: string = '';
+  loading: boolean = false;
   uploadService = inject(UploadService);
 
   onFileSelected(event: any) {
@@ -30,14 +33,22 @@ export class UploadComponent {
   upload() {
     if (this.uploadedFiles.length === 0) return;
 
-    this.uploadService.upload(this.uploadedFiles).subscribe({
-      next: res => console.log(res),
-      error: err => console.error(err)
-    });
-  }
+    this.loading = true;
 
-  state() {
-    return this.uploadService.wait();
+    this.uploadService.upload(this.uploadedFiles).subscribe({
+      next: res => {
+        console.log(res);
+        this.loading = false;
+        this.uploadedFiles = [];
+        this.router.navigate(["/assistant"])
+      },
+      error: err => {
+        console.error(Object.values(err));
+        this.uploadedFiles = [];
+        this.loading = false;
+        alert(err)
+      }
+    });
   }
 
   get files() {

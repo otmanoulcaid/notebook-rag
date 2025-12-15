@@ -14,7 +14,7 @@ public class Properties {
     @Value("${ollama.url}")
     private String ollamaUrl;
     @Value("${ollama.chat}")
-    private String chatModel;
+    private String ollamaChatModel;
 
     @Value("${chroma.url}")
     private String chromaUrl;
@@ -38,11 +38,11 @@ public class Properties {
 		return embeddingModel;
 	}
 
-	public String getChatModel() {
-		return chatModel;
+	public String getOllamaChatModel() {
+		return ollamaChatModel;
 	}
 
-	public String getUrl() {
+	public String getOllamaUrl() {
 		return ollamaUrl;
 	}
 

@@ -27,7 +27,7 @@ public class OpenAiConfig {
 
         @Bean
         @Primary
-        public OpenAiChatModel gptOssModel(Properties props) {
+        public OpenAiChatModel gptChatModel(Properties props) {
                 return OpenAiChatModel.builder()
                                 .baseUrl(props.getOssUrl())
                                 .apiKey(props.getOssApiKey())
