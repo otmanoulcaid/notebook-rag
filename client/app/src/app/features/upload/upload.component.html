@@ -19,7 +19,7 @@
         </ul>
     </div>
     }
-    <button [disabled]="files === 0">Upload</button>
+    <button (click)="upload()" [disabled]="files === 0 && state()">Upload</button>
 
     @if(errorMessage){
     <p class="error">{{ errorMessage }}</p>

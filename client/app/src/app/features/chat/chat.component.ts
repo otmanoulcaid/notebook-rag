@@ -1,5 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,18 +16,20 @@ export class ChatComponent {
     { sender: 'bot', text: 'Absolutely! Upload a PDF and then ask me anything about it.' }
   ];
   @ViewChild('chatWindow') private chatWindow!: ElementRef;
-
+  chatService = inject(ChatService);
   newMessage: string = '';
 
   sendMessage() {
     if (!this.newMessage.trim()) return;
 
     this.messages.push({ sender: 'user', text: this.newMessage });
-
+    this.chatService.send(this.newMessage).subscribe({
+      error: err=> console.log(err),
+      next: (response) => this.messages.push({ sender: 'bot', text: response })
+    })
     setTimeout(() => {
-      this.messages.push({ sender: 'bot', text: 'This is a mock reply for your question: "' + this.newMessage + '"' });
+      this.messages.push({ sender: 'bot', text: 'This response is comming from the AI, just wait...' });
     }, 800);
-
     this.newMessage = '';
   }
 

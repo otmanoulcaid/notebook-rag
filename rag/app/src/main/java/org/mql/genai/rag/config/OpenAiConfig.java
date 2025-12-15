@@ -7,27 +7,32 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory;
+import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 
 @Configuration
 public class OpenAiConfig {
 
-    private final Properties props;
+        @Bean
+        public EmbeddingModel gptEmbeddingModel(Properties props) {
 
-    public OpenAiConfig(Properties props) {
-        this.props = props;
-    }
+                return OpenAiEmbeddingModel.builder()
+                                .baseUrl(props.getOssUrl())
+                                .apiKey(props.getOssApiKey())
+                                .modelName(props.getOpenAiEmbeddingModel())
+                                .timeout(Duration.ofMinutes(Integer.valueOf(props.getTimeout())))
+                                .build();
+        }
 
-    @Bean
-    @Primary
-    public OpenAiChatModel gptOssModel(Properties props) {
-        return OpenAiChatModel.builder()
-                .apiKey(this.props.getOssApiKey())
-                .baseUrl(this.props.getOssUrl())
-                .httpClientBuilder(new SpringRestClientBuilderFactory().create())
-                .modelName("gpt-3.5-turbo")
-                .timeout(Duration.ofMinutes(5))
-                .build();
-    }
+        @Bean
+        @Primary
+        public OpenAiChatModel gptOssModel(Properties props) {
+                return OpenAiChatModel.builder()
+                                .baseUrl(props.getOssUrl())
+                                .apiKey(props.getOssApiKey())
+                                .modelName(props.getOpenAiChatModel())
+                                .timeout(Duration.ofMinutes(Integer.valueOf(props.getTimeout())))
+                                .build();
+        }
 }

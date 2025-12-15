@@ -5,36 +5,18 @@ import java.time.Duration;
 import org.mql.genai.rag.models.Properties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory;
-import dev.langchain4j.model.chat.ChatModel;
-import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.ollama.OllamaEmbeddingModel;
 
 @Configuration
 public class OllamaConfig {
-
-    private final Properties props;
-    public OllamaConfig(Properties props) {
-        this.props = props;
-    }
-
     @Bean
-    ChatModel chatClient() {
-        return OllamaChatModel.builder()
-                .baseUrl(this.props.getUrl())
-                .modelName(this.props.getChatModel())
-                .httpClientBuilder(new SpringRestClientBuilderFactory().create())
-                .timeout(Duration.ofMinutes(Integer.valueOf(props.getTimeout())))
-                .build();
-    }
-
-    @Bean
-    OllamaEmbeddingModel embeddingModel() {
+    @Primary
+    OllamaEmbeddingModel embeddingModel(Properties props) {
         return OllamaEmbeddingModel.builder()
-                .baseUrl(this.props.getUrl())
-                .modelName(this.props.getEmbeddingModel())
-                .httpClientBuilder(new SpringRestClientBuilderFactory().create())
+                .baseUrl(props.getUrl())
+                .modelName(props.getEmbeddingModel())
                 .timeout(Duration.ofMinutes(Integer.valueOf(props.getTimeout())))
                 .build();
     }
