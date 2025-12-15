@@ -11,12 +11,18 @@ import dev.langchain4j.rag.query.Query;
 
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatAssistantService {
 
-    // private final ChatModel chatModel;
+    private static final String PROMPT = loadPrompt();
     private final EmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
 
@@ -37,27 +43,46 @@ public class ChatAssistantService {
                 .maxResults(4)
                 .build();
 
-        // Wrap user message in Query
         List<Content> retrievedSegments = retriever.retrieve(new Query(message));
 
-        // Build augmented prompt for logging
-        StringBuilder augmentedPrompt = new StringBuilder();
-        for (Content segment : retrievedSegments) {
-            augmentedPrompt.append(segment.textSegment().text()).append("\n");
-        }
-        augmentedPrompt.append("\nUser: ").append(message);
+        StringBuilder knowledge = new StringBuilder();
+        for (Content segment : retrievedSegments)
+            knowledge.append(segment.textSegment().text()).append("\n");
+
+        knowledge.append("\nUser: ").append(message);
 
         System.out.println("=== Augmented Prompt ===");
-        System.out.println(augmentedPrompt.toString());
+        System.out.println(knowledge.toString());
         System.out.println("========================");
-        
+
+        String augmentedPrompt = String.format(PROMPT, knowledge, message);
+
         // Assistant assistant = AiServices.builder(Assistant.class)
-        //         .chatModel(chatModel)
-        //         .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-        //         .contentRetriever(retriever)
-        //         .build();
+        // .chatModel(chatModel)
+        // .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+        // .contentRetriever(retriever)
+        // .build();
         // return assistant.chat(message);
 
-        return "fake result";
+        return augmentedPrompt;
+    }
+
+    private static String loadPrompt() {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        Objects.requireNonNull(
+                                Thread.currentThread()
+                                        .getContextClassLoader()
+                                        .getResourceAsStream("static/prompt.txt")),
+                        StandardCharsets.UTF_8))) {
+
+            return br.lines().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String getPrompt() {
+        return PROMPT;
     }
 }

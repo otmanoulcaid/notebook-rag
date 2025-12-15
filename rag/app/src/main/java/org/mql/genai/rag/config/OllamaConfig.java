@@ -6,7 +6,6 @@ import org.mql.genai.rag.models.Properties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import dev.langchain4j.http.client.spring.restclient.SpringRestClientBuilderFactory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.ollama.OllamaEmbeddingModel;
@@ -24,7 +23,6 @@ public class OllamaConfig {
         return OllamaChatModel.builder()
                 .baseUrl(this.props.getUrl())
                 .modelName(this.props.getChatModel())
-                .httpClientBuilder(new SpringRestClientBuilderFactory().create())
                 .timeout(Duration.ofMinutes(Integer.valueOf(props.getTimeout())))
                 .build();
     }
@@ -34,7 +32,6 @@ public class OllamaConfig {
         return OllamaEmbeddingModel.builder()
                 .baseUrl(this.props.getUrl())
                 .modelName(this.props.getEmbeddingModel())
-                .httpClientBuilder(new SpringRestClientBuilderFactory().create())
                 .timeout(Duration.ofMinutes(Integer.valueOf(props.getTimeout())))
                 .build();
     }
