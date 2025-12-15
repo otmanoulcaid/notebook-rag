@@ -23,6 +23,11 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-easy-rag</artifactId>
             <version>${langchain4j.version}</version>
@@ -33,17 +38,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
-		<dependency>
-		    <groupId>dev.langchain4j</groupId>
-		    <artifactId>langchain4j-ollama</artifactId>
-		    <version>1.9.1</version> <!-- 1.9.1-beta17 <==> ${langchain4j.version} this version does not exist -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-ollama</artifactId>
+            <version>1.9.1</version> <!-- 1.9.1-beta17 <==> ${langchain4j.version} this version does not
+            exist -->
             <exclusions>
                 <exclusion>
                     <groupId>dev.langchain4j</groupId>
                     <artifactId>langchain4j-http-client-jdk</artifactId>
                 </exclusion>
             </exclusions>
-		</dependency>
+        </dependency>
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
@@ -55,7 +61,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-chroma</artifactId>

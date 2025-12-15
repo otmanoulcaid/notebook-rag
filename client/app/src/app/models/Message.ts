@@ -1,5 +1,5 @@
 export interface Message {
-  sender: 'user' | 'bot';
+  sender: 'USER' | 'BOT';
   text: string;
   loading?: boolean;
 };

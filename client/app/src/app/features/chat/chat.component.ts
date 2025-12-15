@@ -12,26 +12,35 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, CommonModule]
 })
 export class ChatComponent {
-
-  messages: Message[] = [
-    { sender: 'bot', text: 'Hello! I am your Note Assistant. How can I help you today?' }
-  ];
-
-  newMessage = '';
-  chatService = inject(ChatService);
-
   @ViewChild('chatWindow') private chatWindow!: ElementRef;
+  chatService !:ChatService;
+  messages!: Message[];
+  newMessage = '';
+
+  constructor(chatService: ChatService) {
+    this.chatService = chatService;
+    this.messages = [
+      { sender: 'BOT', text: 'Hello! I am your Note Assistant. How can I help you today?' }
+    ];
+    this.chatService.getMessages().subscribe({
+      next: messages => this.messages.push(...messages),
+      error: err => {
+        console.log(err);
+        alert('something goes wrrong');
+      }
+    });
+  }
 
   sendMessage() {
     if (!this.newMessage.trim()) return;
 
     this.messages.push({
-      sender: 'user',
+      sender: 'USER',
       text: this.newMessage
     });
 
     const thinkingMessage: Message = {
-      sender: 'bot',
+      sender: 'BOT',
       text: '',
       loading: true
     };

@@ -4,8 +4,8 @@
     <div class="chat-window" #chatWindow>
         @for (message of messages; track $index) {
         <div class="chat-message" [ngClass]="{
-          'user-msg': message.sender === 'user',
-          'bot-msg': message.sender === 'bot'
+          'user-msg': message.sender === 'USER',
+          'bot-msg': message.sender === 'BOT'
         }">
 
             @if (message.loading) {
