@@ -8,6 +8,8 @@ services:
     volumes:
       - ollama-data:/root/.ollama
     mem_limit: 5g 
+    environment:
+      - RAG_HOST=rag.oulcaid.tech
   
   chroma:
     image: chromadb/chroma:0.4.24
@@ -26,6 +28,22 @@ services:
       - mongo-data:/data/db
       - ./mongodb:/docker-entrypoint-initdb.d
 
+  backend:
+    build: rag
+    image: back:rag
+    container_name: back
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: client
+    image: front:rag
+    container_name: front
+    ports:
+      - "443:443"
+    volumes:
+      - mongo-data:/data/db
+      
 volumes:
   ollama-data:
   chroma-data:

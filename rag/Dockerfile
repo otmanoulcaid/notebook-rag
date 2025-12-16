@@ -10,4 +10,4 @@ FROM eclipse-temurin:22-jdk-alpine
 
 COPY --from=builder /app/target/*.jar /app/app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
