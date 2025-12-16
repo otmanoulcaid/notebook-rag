@@ -17,15 +17,16 @@ services:
     volumes:
       - chroma-data:/chroma
 
-  # openui:
-  #   image: openui/openui
-  #   environment:
-  #     - API_HOST=http://ollama:11434
-  #   ports:
-  #     - "5173:5173"
-  #   depends_on:
-  #     - ollama
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./mongodb:/docker-entrypoint-initdb.d
 
 volumes:
   ollama-data:
   chroma-data:
+  mongo-data:
