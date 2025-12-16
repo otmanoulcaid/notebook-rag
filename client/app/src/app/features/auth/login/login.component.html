@@ -1,0 +1,42 @@
+<div class="login-container">
+    <form class="login-card" (ngSubmit)="login()">
+
+        <h1>Sign in</h1>
+        <p class="subtitle">Enter your credentials to continue</p>
+
+        <div class="field">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="email" name="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <input type="password" [(ngModel)]="password" name="password" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" [disabled]="loading">
+            {{ loading ? 'Signing in...' : 'Login' }}
+        </button>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <!-- Social auth -->
+        <button type="button" class="social-btn google" (click)="loginWithGoogle()">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" />
+            Continue with Google
+        </button>
+
+        <button type="button" class="social-btn github" (click)="loginWithGithub()">
+            <img src="https://www.svgrepo.com/show/475654/github-color.svg" />
+            Continue with GitHub
+        </button>
+
+        <span class="footer-text">
+            © 2025 My Platform
+        </span>
+
+    </form>
+</div>

@@ -1,0 +1,18 @@
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <a routerLink="/" class="logo-box">N</a>
+            <span class="logo-text">Note Assistant</span>
+        </div>
+        <nav class="nav-links">
+            <a routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/">Home</a>
+            <a routerLinkActive="active" routerLink="/upload">Upload PDF</a>
+            <a routerLinkActive="active" routerLink="/assistant">Assistant</a>
+            <a routerLinkActive="active" routerLink="/login" (click)="logout()">Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>
