@@ -30,10 +30,10 @@ export class LoginComponent {
   }
 
   loginWithGoogle() {
-    window.location.href = 'http://localhost:8080/oauth2/authorize/google';
+    window.location.href = 'http://100.111.232.195:8080/oauth2/authorize/google';
   }
 
   loginWithGithub() {
-    window.location.href = 'http://localhost:8080/oauth2/authorize/github';
+    window.location.href = 'http://100.111.232.195:8080/oauth2/authorize/github';
   }
 }

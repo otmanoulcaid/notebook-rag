@@ -48,7 +48,7 @@ public class ChatAssistantService {
         ContentRetriever retriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
-                .maxResults(4)
+                .maxResults(3)
                 .build();
 
         List<Content> retrievedSegments = retriever.retrieve(new Query(message));
@@ -57,15 +57,9 @@ public class ChatAssistantService {
         for (Content segment : retrievedSegments)
             knowledge.append(segment.textSegment().text()).append("\n");
 
-        knowledge.append("\nUser: ").append(message);
-
-        System.out.println("=== Augmented Prompt ===");
-        System.out.println(knowledge.toString());
-        System.out.println("========================");
-
         String augmentedPrompt = String.format(PROMPT, knowledge, message);
-        System.out.println(augmentedPrompt.length());
-        System.out.println(augmentedPrompt.length());
+        System.out.println("========================");
+        System.out.println(augmentedPrompt);
         System.out.println(augmentedPrompt.length());
         System.out.println("========================");
 

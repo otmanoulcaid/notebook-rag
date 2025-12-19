@@ -20,7 +20,7 @@ export class UploadService {
     this.wait.set(true);
 
     return this.http
-      .post<HttpResponse>('http://localhost:8080/api/v1/upload', formData)
+      .post<HttpResponse>('http://100.111.232.195:8080/api/v1/upload', formData)
       .pipe(
         finalize(() => this.wait.set(false))
       );

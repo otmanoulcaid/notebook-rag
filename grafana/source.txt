@@ -1,0 +1,13 @@
+Spring Boot HTTP metrics
+ID : 10280
+https://grafana.com/grafana/dashboards/10280
+
+
+Docker containers
+ID : 893
+https://grafana.com/grafana/dashboards/893
+
+
+Prometheus self-monitoring
+ID : 3662
+https://grafana.com/grafana/dashboards/3662
