@@ -58,10 +58,6 @@ public class ChatAssistantService {
             knowledge.append(segment.textSegment().text()).append("\n");
 
         String augmentedPrompt = String.format(PROMPT, knowledge, message);
-        System.out.println("========================");
-        System.out.println(augmentedPrompt);
-        System.out.println(augmentedPrompt.length());
-        System.out.println("========================");
 
         Assistant assistant = AiServices.builder(Assistant.class)
                 .chatModel(chatModel)

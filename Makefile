@@ -3,6 +3,9 @@ all : up
 up :
 	@docker compose $@ -d --build
 
+build :
+	@docker compose up -d --build
+
 stop :
 	@docker compose $@
 
@@ -22,3 +25,8 @@ clean :
 fclean: clean
 	@docker image prune -f -a
 	@docker volume prune -f -a
+
+
+re : clean up
+
+rebuild : clean build

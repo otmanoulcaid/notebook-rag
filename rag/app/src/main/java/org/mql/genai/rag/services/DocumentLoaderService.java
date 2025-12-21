@@ -55,8 +55,6 @@ public class DocumentLoaderService {
                         file.getInputStream(),
                         targetPath,
                         StandardCopyOption.REPLACE_EXISTING);
-
-                System.out.println("Saved file: " + targetPath.toAbsolutePath());
             }
 
         } catch (IOException e) {
@@ -84,14 +82,8 @@ public class DocumentLoaderService {
             String[] words = segment.text().trim().split("\\s+");
             wordCount += words.length;
         }
-        System.out.println(wordCount);
-        Instant now = Instant.now();
-        System.out.println(">>>>>>>>>>>>>>>>>>>>> start the emmbedding <<<<<<<<<<<<<<<<<<<<<<");
         List<Embedding> embeddings = embeddingModel.embedAll(pdfSegments).content();
         embeddingStore.addAll(embeddings, pdfSegments);
-        long time = Duration.between(now, Instant.now()).toSeconds();
-        System.out.println(">>>>>>>>>>>>>>>>>>>>> Done from the emmbeddingin : " + time + " <<<<<<<<<<<<<<<<<<<<<<");
-
     }
 
     public void upload(MultipartFile[] files) {
