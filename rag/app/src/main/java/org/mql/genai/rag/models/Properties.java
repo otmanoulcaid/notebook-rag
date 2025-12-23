@@ -27,11 +27,11 @@ public class Properties {
 	@Value("${oss.url}")
 	private String ossApiUrl;
 
-	@Value("${openai.embedding}")
+	@Value("${openai.embedding:none}")
 	private String openAiEmbeddingModel;
 	@Value("${openai.chat}")
 	private String openAiChatModel;
-	@Value("${openai.key}")
+	@Value("${openai.key:none}")
 	private String openAiKey;
 
 	public String getEmbeddingModel() {

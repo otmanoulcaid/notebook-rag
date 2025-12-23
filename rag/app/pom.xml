@@ -41,8 +41,7 @@
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-ollama</artifactId>
-            <version>1.9.1</version> <!-- 1.9.1-beta17 <==> ${langchain4j.version} this version does not
-            exist -->
+            <version>1.9.1</version> <!-- 1.9.1-beta17 <==> ${langchain4j.version} this version does not exist -->
             <exclusions>
                 <exclusion>
                     <groupId>dev.langchain4j</groupId>

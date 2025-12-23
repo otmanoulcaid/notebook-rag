@@ -74,13 +74,9 @@ public class DocumentLoaderService {
             pdfSegments.addAll(segments);
         }
 
-        int wordCount = 0;
-
         for (TextSegment segment : pdfSegments) {
             if (segment.text() == null || segment.text().isBlank())
                 continue;
-            String[] words = segment.text().trim().split("\\s+");
-            wordCount += words.length;
         }
         List<Embedding> embeddings = embeddingModel.embedAll(pdfSegments).content();
         embeddingStore.addAll(embeddings, pdfSegments);
