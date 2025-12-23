@@ -13,7 +13,7 @@ export class ChatService {
 
   send(prompt: string) {
     this.wait.set(true)
-    return this.httpClient.post<HttpResponse>('http://192.168.100.239:8080/api/v1/chat', {
+    return this.httpClient.post<HttpResponse>('http://192.168.100.38:8080/api/v1/chat', {
       prompt
     }).pipe(finalize(() => {
       this.wait.set(false);
@@ -21,6 +21,6 @@ export class ChatService {
   }
 
   getMessages() {
-    return this.httpClient.get<Message[]>('http://192.168.100.239:8080/api/v1/messages')
+    return this.httpClient.get<Message[]>('http://192.168.100.38:8080/api/v1/messages')
   }
 }

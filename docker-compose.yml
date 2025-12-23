@@ -41,8 +41,6 @@ services:
     container_name: front
     ports:
       - "443:443"
-    volumes:
-      - mongo-data:/data/db
       
 volumes:
   ollama-data:

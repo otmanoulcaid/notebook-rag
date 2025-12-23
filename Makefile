@@ -1,7 +1,7 @@
 all : up
 
 up :
-	@docker compose $@ -d --build
+	@docker compose $@ -d
 
 build :
 	@docker compose up -d --build
